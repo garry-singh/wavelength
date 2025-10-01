@@ -342,6 +342,7 @@ export const switchDescriber = mutation({
         gamePhase: isGameFinished ? "finished" : "waiting",
         currentRound: isGameFinished ? game.currentRound : nextRound,
         targetNumber: isGameFinished ? undefined : Math.floor(Math.random() * 24) + 1,
+        spectrumPair: isGameFinished ? undefined : getRandomSpectrumPair(),
         currentDescriberId: nextDescriberId,
         describersThisRound: isGameFinished ? [] : [nextDescriberId!],
         roundStartedAt: isGameFinished ? undefined : Date.now(),
@@ -396,14 +397,16 @@ export const switchDescriber = mutation({
       await ctx.db.patch(nextPlayer._id, { isDescriber: true });
     }
 
-    // Generate new target number
+    // Generate new target number and spectrum pair
     const newTargetNumber = Math.floor(Math.random() * 24) + 1;
+    const newSpectrumPair = getRandomSpectrumPair();
 
     // Update game state
     await ctx.db.patch(args.gameId, {
       currentDescriberId: nextDescriber.userId,
       describersThisRound: [...describersThisRound, nextDescriber.userId],
       targetNumber: newTargetNumber,
+      spectrumPair: newSpectrumPair,
       updatedAt: Date.now(),
     });
 
@@ -745,6 +748,7 @@ export const markPlayerReadyForNextRound = mutation({
             gamePhase: isGameFinished ? "finished" : "playing", // Auto-start next round
             currentRound: isGameFinished ? game.currentRound : nextRound,
             targetNumber: isGameFinished ? undefined : Math.floor(Math.random() * 24) + 1,
+        spectrumPair: isGameFinished ? undefined : getRandomSpectrumPair(),
             currentDescriberId: nextDescriberId,
             describersThisRound: isGameFinished ? [] : [nextDescriberId!],
             playersReadyForNextRound: isGameFinished ? [] : [],
@@ -801,8 +805,9 @@ export const markPlayerReadyForNextRound = mutation({
               await ctx.db.delete(guess._id);
             }
 
-            // Generate new target number
+            // Generate new target number and spectrum pair
             const newTargetNumber = Math.floor(Math.random() * 24) + 1;
+            const newSpectrumPair = getRandomSpectrumPair();
 
             // Update game state
             await ctx.db.patch(args.gameId, {
@@ -810,6 +815,7 @@ export const markPlayerReadyForNextRound = mutation({
               currentDescriberId: nextDescriber.userId,
               describersThisRound: [...describersThisRound, nextDescriber.userId],
               targetNumber: newTargetNumber,
+              spectrumPair: newSpectrumPair,
               playersReadyForNextRound: [], // Reset ready list
               roundStartedAt: Date.now(), // Reset round timer
               updatedAt: Date.now(),
