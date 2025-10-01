@@ -43,6 +43,13 @@ const App: React.FC = () => {
       // Generate a random room code
       const roomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
 
+      console.log("Creating room with:", {
+        roomCode,
+        hostId: playerId,
+        hostUsername: username,
+        totalRounds: rounds,
+      });
+
       // Create game in Convex
       const gameId = await createGame({
         roomCode,
@@ -50,6 +57,8 @@ const App: React.FC = () => {
         hostUsername: username,
         totalRounds: rounds,
       });
+
+      console.log("Room created successfully with gameId:", gameId);
 
       setGameState({
         gameId,
@@ -60,7 +69,13 @@ const App: React.FC = () => {
       });
     } catch (error) {
       console.error("Failed to create room:", error);
-      alert("Failed to create room. Please try again.");
+      console.error("Error details:", {
+        message: error instanceof Error ? error.message : "Unknown error",
+        stack: error instanceof Error ? error.stack : undefined,
+      });
+      alert(
+        `Failed to create room: ${error instanceof Error ? error.message : "Unknown error"}`
+      );
     } finally {
       setIsLoading(false);
     }
@@ -71,12 +86,20 @@ const App: React.FC = () => {
 
     setIsLoading(true);
     try {
+      console.log("Joining room with:", {
+        roomCode,
+        userId: playerId,
+        username,
+      });
+
       // Join game in Convex
       const gameId = await joinGame({
         roomCode,
         userId: playerId,
         username,
       });
+
+      console.log("Joined room successfully with gameId:", gameId);
 
       setGameState({
         gameId,
@@ -87,7 +110,13 @@ const App: React.FC = () => {
       });
     } catch (error) {
       console.error("Failed to join room:", error);
-      alert("Failed to join room. Please check the room code and try again.");
+      console.error("Error details:", {
+        message: error instanceof Error ? error.message : "Unknown error",
+        stack: error instanceof Error ? error.stack : undefined,
+      });
+      alert(
+        `Failed to join room: ${error instanceof Error ? error.message : "Unknown error"}`
+      );
     } finally {
       setIsLoading(false);
     }

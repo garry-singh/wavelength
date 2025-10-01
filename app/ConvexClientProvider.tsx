@@ -12,6 +12,8 @@ if (!convexUrl) {
   );
 }
 
+console.log("Convex URL:", convexUrl);
+
 const convex = new ConvexReactClient(convexUrl);
 
 export function ConvexClientProvider({ children }: { children: ReactNode }) {
