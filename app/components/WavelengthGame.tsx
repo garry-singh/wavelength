@@ -42,61 +42,6 @@ const WavelengthGame: React.FC<WavelengthGameProps> = ({
     onSliderChange?.(newValue);
   };
 
-  // Generate spectrum segments
-  const generateSpectrumSegments = () => {
-    const segments = [];
-    const colors = [
-      "#FF6B6B",
-      "#FF8E53",
-      "#FF6B9D",
-      "#C44569",
-      "#F8B500",
-      "#FFD93D",
-      "#6BCF7F",
-      "#4D96FF",
-      "#9B59B6",
-      "#E74C3C",
-      "#F39C12",
-      "#2ECC71",
-      "#3498DB",
-      "#9B59B6",
-      "#E67E22",
-      "#1ABC9C",
-      "#34495E",
-      "#E91E63",
-      "#FF9800",
-      "#4CAF50",
-      "#2196F3",
-      "#9C27B0",
-      "#FF5722",
-      "#607D8B",
-    ];
-
-    for (let i = 0; i < 24; i++) {
-      const angle = i * (180 / 23) - 90;
-      segments.push(
-        <div
-          key={i}
-          className="absolute w-1/2 h-1/2 origin-bottom"
-          style={{
-            transform: `rotate(${angle}deg)`,
-            transformOrigin: "bottom center",
-          }}
-        >
-          <div
-            className="w-full h-12 bg-gradient-to-r from-transparent to-current opacity-90"
-            style={{
-              backgroundColor: colors[i],
-              clipPath: "polygon(0 100%, 100% 100%, 50% 0%)",
-              filter: "drop-shadow(0 0 2px rgba(0,0,0,0.3))",
-            }}
-          />
-        </div>
-      );
-    }
-    return segments;
-  };
-
   return (
     <div className="flex flex-col items-center justify-center w-full h-full relative">
       {/* Game Title */}
@@ -139,11 +84,6 @@ const WavelengthGame: React.FC<WavelengthGameProps> = ({
             filter: "drop-shadow(0 0 20px rgba(0,0,0,0.5))",
           }}
         >
-          {/* Spectrum Segments */}
-          <div className="absolute inset-0 overflow-hidden rounded-t-full">
-            {generateSpectrumSegments()}
-          </div>
-
           {/* Red Target Pointer (for describer) */}
           {isDescriber && (
             <div
@@ -185,11 +125,11 @@ const WavelengthGame: React.FC<WavelengthGameProps> = ({
         </div>
 
         {/* Spectrum Labels */}
-        <div className="absolute -bottom-12 left-0 right-0 flex justify-between text-white font-bold text-lg">
-          <span className="bg-slate-800/50 px-3 py-1 rounded-full border border-white/20">
+        <div className="absolute -bottom-10 left-0 right-0 flex justify-between text-white font-bold text-lg">
+          <span className="bg-slate-800/50 px-3 py-1.5 rounded-full border border-white/20 text-xs max-w-32 text-center align-middle">
             {spectrumPair.left}
           </span>
-          <span className="bg-slate-800/50 px-3 py-1 rounded-full border border-white/20">
+          <span className="bg-slate-800/50 px-3 py-1.5 rounded-full border border-white/20 text-xs max-w-32 text-center align-middle">
             {spectrumPair.right}
           </span>
         </div>
@@ -197,7 +137,7 @@ const WavelengthGame: React.FC<WavelengthGameProps> = ({
 
       {/* Slider Control (for non-describers) */}
       {!isDescriber && (
-        <div className="mt-12 w-96 bg-slate-800/50 p-6 rounded-lg border border-white/20">
+        <div className="mt-20 w-96 bg-slate-800/50 p-6 rounded-lg border border-white/20">
           <div className="text-white text-sm mb-4 text-center">
             Current position:{" "}
             <span className="font-bold text-blue-300">{sliderPosition}</span>
@@ -212,8 +152,12 @@ const WavelengthGame: React.FC<WavelengthGameProps> = ({
               className="w-full"
             />
             <div className="flex justify-between text-white text-sm">
-              <span className="text-xs opacity-75">{spectrumPair.left}</span>
-              <span className="text-xs opacity-75">{spectrumPair.right}</span>
+              <span className="text-xs opacity-75 max-w-32 text-center align-middle">
+                {spectrumPair.left}
+              </span>
+              <span className="text-xs opacity-75 max-w-32 text-center align-middle">
+                {spectrumPair.right}
+              </span>
             </div>
           </div>
         </div>
@@ -238,7 +182,7 @@ const WavelengthGame: React.FC<WavelengthGameProps> = ({
       )}
 
       {/* Game Info */}
-      <div className="mt-8 text-center text-white relative z-10">
+      <div className="mt-20 text-center text-white relative z-10">
         <div className="text-xl mb-6 font-semibold">
           {isDescriber ? (
             <span className="text-red-400 flex items-center justify-center gap-2">
