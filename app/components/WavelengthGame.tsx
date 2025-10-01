@@ -8,6 +8,7 @@ import { toast } from "sonner";
 interface WavelengthGameProps {
   isDescriber?: boolean;
   targetNumber?: number;
+  spectrumPair?: { left: string; right: string };
   onSubmitGuess?: (guess: number) => void;
   canSubmit?: boolean;
   hasSubmittedGuess?: boolean;
@@ -17,6 +18,7 @@ interface WavelengthGameProps {
 const WavelengthGame: React.FC<WavelengthGameProps> = ({
   isDescriber = false,
   targetNumber = 12,
+  spectrumPair = { left: "Cold", right: "Hot" },
   onSubmitGuess,
   canSubmit = false,
   hasSubmittedGuess = false,
@@ -182,13 +184,13 @@ const WavelengthGame: React.FC<WavelengthGameProps> = ({
           <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-10 h-10 bg-gradient-to-br from-slate-700 to-slate-800 rounded-full border-4 border-white shadow-xl"></div>
         </div>
 
-        {/* Number Labels */}
+        {/* Spectrum Labels */}
         <div className="absolute -bottom-12 left-0 right-0 flex justify-between text-white font-bold text-lg">
           <span className="bg-slate-800/50 px-3 py-1 rounded-full border border-white/20">
-            1
+            {spectrumPair.left}
           </span>
           <span className="bg-slate-800/50 px-3 py-1 rounded-full border border-white/20">
-            24
+            {spectrumPair.right}
           </span>
         </div>
       </div>
@@ -210,8 +212,8 @@ const WavelengthGame: React.FC<WavelengthGameProps> = ({
               className="w-full"
             />
             <div className="flex justify-between text-white text-sm">
-              <span className="text-xs opacity-75">1</span>
-              <span className="text-xs opacity-75">24</span>
+              <span className="text-xs opacity-75">{spectrumPair.left}</span>
+              <span className="text-xs opacity-75">{spectrumPair.right}</span>
             </div>
           </div>
         </div>

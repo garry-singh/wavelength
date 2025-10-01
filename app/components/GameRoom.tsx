@@ -69,6 +69,7 @@ const GameRoom: React.FC<GameRoomProps> = ({
   const currentRound = game?.currentRound || 1;
   const gamePhase = game?.gamePhase || "waiting";
   const targetNumber = game?.targetNumber || 12;
+  const spectrumPair = game?.spectrumPair || { left: "Cold", right: "Hot" };
 
   // Helper function to get player score
   const getPlayerScore = (playerId: string) => {
@@ -269,6 +270,7 @@ const GameRoom: React.FC<GameRoomProps> = ({
               <WavelengthGame
                 isDescriber={isDescriber}
                 targetNumber={targetNumber}
+                spectrumPair={spectrumPair}
                 onSubmitGuess={handleSubmitGuess}
                 canSubmit={canSubmitGuess}
                 hasSubmittedGuess={hasSubmittedGuess}

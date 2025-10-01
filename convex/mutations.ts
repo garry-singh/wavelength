@@ -1,5 +1,6 @@
 import { mutation } from "./_generated/server";
 import { v } from "convex/values";
+import { getRandomSpectrumPair } from "./spectrumData";
 
 // Create a new game room
 export const createGame = mutation({
@@ -107,12 +108,14 @@ export const startGame = mutation({
       throw new Error("Game has already started");
     }
 
-    // Generate random target number (1-24)
+    // Generate random target number (1-24) and spectrum pair
     const targetNumber = Math.floor(Math.random() * 24) + 1;
+    const spectrumPair = getRandomSpectrumPair();
 
     await ctx.db.patch(args.gameId, {
       gamePhase: "playing",
       targetNumber,
+      spectrumPair,
       currentDescriberId: args.hostId,
       describersThisRound: [args.hostId], // Start with host as first describer
       roundStartedAt: Date.now(),

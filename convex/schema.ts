@@ -15,6 +15,10 @@ export default defineSchema({
       v.literal("finished")
     ),
     targetNumber: v.optional(v.number()),
+    spectrumPair: v.optional(v.object({
+      left: v.string(),
+      right: v.string(),
+    })),
     currentDescriberId: v.optional(v.string()),
     describersThisRound: v.optional(v.array(v.string())), // Track who has been describer this round
     roundStartedAt: v.optional(v.number()),
